@@ -1,0 +1,19 @@
+{
+  "name": "lopatinas/tinkoff-payment-bundle",
+  "description": "Tinkoff Payment API",
+  "keywords": ["tinkoff", "symfony"],
+  "type": "symfony-bundle",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Alexey S. Lopatin",
+      "email": "a.lopatin@internetsystems.pro"
+    }
+  ],
+  "require": {
+    "php": ">=5.5.9"
+  },
+  "autoload": {
+    "psr-4": { "Lopatinas\\TinkoffPaymentBundle\\": "" }
+  }
+}
