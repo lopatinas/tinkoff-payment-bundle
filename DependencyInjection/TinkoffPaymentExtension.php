@@ -14,6 +14,10 @@ class TinkoffPaymentExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
+        $container->setParameter('tinkoff_payment.api_url', $config['api_url']);
+        $container->setParameter('tinkoff_payment.terminal_key', $config['terminal_key']);
+        $container->setParameter('tinkoff_payment.secret_key', $config['secret_key']);
+
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
     }

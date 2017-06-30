@@ -1,0 +1,13 @@
+services:
+    tinkoff_payment_api:
+        class: Lopatinas\TinkoffPaymentBundle\Service\ApiService
+        public: false
+        arguments: []
+        calls:
+            - [setApiUrl, ["%tinkoff_payment.api_url%"]]
+            - [setTerminalKey, ["%tinkoff_payment.terminal_key%"]]
+            - [setSecretKey, ["%tinkoff_payment.secret_key%"]]
+
+    tinkoff_payment:
+        class: Lopatinas\TinkoffPaymentBundle\Service\TinkoffPaymentService
+        arguments: ["@tinkoff_payment_api"]
