@@ -15,8 +15,6 @@ class ApiService
     /** @var string */
     private $_secretKey;
 
-    private $_response;
-
     /**
      * @param $apiUrl
      */
