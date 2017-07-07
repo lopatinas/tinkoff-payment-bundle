@@ -76,7 +76,8 @@ class TinkoffPaymentService
     private function checkErrors(Response $response)
     {
         if (!$response->isSuccess()) {
-            throw new TinkoffPaymentRequestException($response->getDetails(), $response->getErrorCode());
+            $message = $response->getDetails() ? $response->getDetails() : $response->getMessage();
+            throw new TinkoffPaymentRequestException($message, $response->getErrorCode());
         }
     }
 
