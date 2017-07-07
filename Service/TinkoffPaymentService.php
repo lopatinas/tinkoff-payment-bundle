@@ -4,6 +4,7 @@ namespace Lopatinas\TinkoffPaymentBundle\Service;
 
 use Lopatinas\TinkoffPaymentBundle\Entity\Order;
 use Lopatinas\TinkoffPaymentBundle\Entity\Response;
+use Lopatinas\TinkoffPaymentBundle\Exception\TinkoffPaymentRequestException;
 
 class TinkoffPaymentService
 {
@@ -27,8 +28,10 @@ class TinkoffPaymentService
      */
     public function init(Order $order)
     {
-        $response = $this->apiService->init($order->__toArray());
-        return new Response($response);
+        $result = $this->apiService->init($order->__toArray());
+        $response = new Response($result);
+        $this->checkErrors($response);
+        return $response;
     }
 
     /**
@@ -37,8 +40,10 @@ class TinkoffPaymentService
      */
     public function getState($paymentId)
     {
-        $response = $this->apiService->getState(['PaymentId' => $paymentId]);
-        return new Response($response);
+        $result = $this->apiService->getState(['PaymentId' => $paymentId]);
+        $response = new Response($result);
+        $this->checkErrors($response);
+        return $response;
     }
 
     /**
@@ -59,7 +64,19 @@ class TinkoffPaymentService
             $params['Amount'] = $amount;
         }
 
-        $response = $this->apiService->cancel($params);
-        return new Response($response);
+        $result = $this->apiService->cancel($params);
+        $response = new Response($result);
+        $this->checkErrors($response);
+        return $response;
+    }
+
+    /**
+     * @param Response $response
+     */
+    private function checkErrors(Response $response)
+    {
+        if (!$response->isSuccess()) {
+            throw new TinkoffPaymentRequestException($response->getDetails(), $response->getErrorCode());
+        }
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Lopatinas\TinkoffPaymentBundle\Service;
 
+use Lopatinas\TinkoffPaymentBundle\Exception\TinkoffPaymentApiException;
 use Lopatinas\TinkoffPaymentBundle\Exception\TinkoffPaymentNotFoundHttpException;
 
 class ApiService
@@ -262,8 +263,14 @@ class ApiService
         curl_setopt($curl, CURLOPT_POSTFIELDS, $args);
         $out = curl_exec($curl);
 
+        $result = json_decode($out);
+        $error = curl_error($curl);
         curl_close($curl);
 
-        return json_decode($out);
+        if (!is_array($result)) {
+            throw new TinkoffPaymentApiException(sprintf('Cannot parse result as json. Curl error: "%s"', $error));
+        }
+
+        return $result;
     }
 }
