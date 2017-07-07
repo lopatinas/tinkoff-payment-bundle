@@ -104,7 +104,7 @@ class Response
         }
         $this->orderId = $response['OrderId'];
         $this->success = $response['Success'];
-        $this->status = $response['status'];
+        $this->status = $response['Status'];
         $this->paymentId = $response['PaymentId'];
         $this->errorCode = $response['ErrorCode'];
         if (isset($response['PaymentURL'])) {

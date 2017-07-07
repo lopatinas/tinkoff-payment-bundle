@@ -264,6 +264,10 @@ class ApiService
         $out = curl_exec($curl);
 
         $result = json_decode($out);
+        if (is_object($result)) {
+            $result = (array) $result;
+        }
+
         $error = curl_error($curl);
         curl_close($curl);
 
