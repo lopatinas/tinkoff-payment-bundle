@@ -104,10 +104,16 @@ class Response
         if (isset($response['NewAmount'])) {
             $this->newAmount = $response['NewAmount'];
         }
-        $this->orderId = $response['OrderId'];
+        if (isset($response['OrderId'])) {
+            $this->orderId = $response['OrderId'];
+        }
         $this->success = $response['Success'];
-        $this->status = $response['Status'];
-        $this->paymentId = $response['PaymentId'];
+        if (isset($response['Status'])) {
+            $this->status = $response['Status'];
+        }
+        if (isset($response['PaymentId'])) {
+            $this->paymentId = $response['PaymentId'];
+        }
         $this->errorCode = $response['ErrorCode'];
         if (isset($response['PaymentURL'])) {
             $this->paymentUrl = $response['PaymentURL'];
