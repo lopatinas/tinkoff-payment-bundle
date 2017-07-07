@@ -92,7 +92,9 @@ class Response
      */
     function __construct(array $response)
     {
-        $this->terminalKey = $response['TerminalKey'];
+        if (isset($response['TerminalKey'])) {
+            $this->terminalKey = $response['TerminalKey'];
+        }
         if (isset($response['Amount'])) {
             $this->amount = $response['Amount'];
         }
