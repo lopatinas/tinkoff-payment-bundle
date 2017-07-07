@@ -277,4 +277,20 @@ class ApiService
 
         return $result;
     }
+
+    /**
+     * @param $args
+     * @param $receivedToken
+     * @return bool
+     */
+    public function checkToken($args, $receivedToken)
+    {
+        if (isset($args['Token'])) {
+            unset($args['Token']);
+        }
+
+        $token = $this->_genToken($args);
+
+        return $token === $receivedToken;
+    }
 }

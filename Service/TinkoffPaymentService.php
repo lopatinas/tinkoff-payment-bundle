@@ -79,4 +79,14 @@ class TinkoffPaymentService
             throw new TinkoffPaymentRequestException($response->getDetails(), $response->getErrorCode());
         }
     }
+
+    /**
+     * @param $data
+     * @param $token
+     * @return bool
+     */
+    public function checkToken($data, $token)
+    {
+        return $this->apiService->checkToken($data, $token);
+    }
 }
