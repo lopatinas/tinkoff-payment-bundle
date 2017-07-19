@@ -53,11 +53,17 @@ class Order
      */
     private $language = 'ru';
 
-    public function __construct($orderId, $amount, $data, $description = null)
+    public function __construct($orderId = null, $amount = null, $data = null, $description = null)
     {
-        $this->orderId = $orderId;
-        $this->amount = $amount;
-        $this->data = $data;
+        if (null !== $orderId) {
+            $this->orderId = $orderId;
+        }
+        if (null !== $amount) {
+            $this->amount = $amount;
+        }
+        if (null !== $data) {
+            $this->data = $data;
+        }
         if (null !== $description) {
             $this->description = $description;
         }
