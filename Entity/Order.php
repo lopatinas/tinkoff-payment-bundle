@@ -209,9 +209,12 @@ class Order
     private function __parseData()
     {
         $a = [];
-        foreach (explode('|', $this->data) as $item) {
-            list($key, $value) = explode('=', $item);
-            $a[$key] = $value;
+
+        if (!empty($this->data)) {
+            foreach (explode('|', $this->data) as $item) {
+                list($key, $value) = explode('=', $item);
+                $a[$key] = $value;
+            }
         }
 
         return $a;
