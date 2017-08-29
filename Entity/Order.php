@@ -193,7 +193,7 @@ class Order
      */
     private function __buildData(array $data)
     {
-        $newStr = '';
+        $newStr = [];
 
         foreach ($data as $key => $value) {
             $newStr[] = $key . '=' . $value;
