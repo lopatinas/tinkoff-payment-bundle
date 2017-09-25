@@ -53,7 +53,20 @@ class Order
      */
     private $language = 'ru';
 
-    public function __construct($orderId = null, $amount = null, $data = null, $description = null)
+    /**
+     * @var Receipt|null $receipt Receipt object
+     */
+    private $receipt = null;
+
+    /**
+     * Order constructor.
+     * @param null $orderId
+     * @param null $amount
+     * @param null $data
+     * @param null $description
+     * @param Receipt|null $receipt
+     */
+    public function __construct($orderId = null, $amount = null, $data = null, $description = null, Receipt $receipt = null)
     {
         if (null !== $orderId) {
             $this->orderId = $orderId;
@@ -66,6 +79,9 @@ class Order
         }
         if (null !== $description) {
             $this->description = $description;
+        }
+        if (null !== $receipt) {
+            $this->receipt = $receipt;
         }
     }
 
@@ -155,6 +171,9 @@ class Order
      */
     public function setData($data)
     {
+        if (!is_array($data)) {
+            $data = json_decode($data);
+        }
         $this->data = $data;
         return $this;
     }
@@ -162,10 +181,10 @@ class Order
     public function __toArray()
     {
         $order = [
-            'Amount' => $this->amount,
-            'OrderId' => $this->orderId,
-            'Language' => $this->language,
-            'DATA' => $this->data,
+            'Amount'    => $this->amount,
+            'OrderId'   => $this->orderId,
+            'Language'  => $this->language,
+            'DATA'      => json_encode($this->data),
         ];
 
         if (null !== $this->terminalKey) {
@@ -184,40 +203,11 @@ class Order
             $order['CustomerKey'] = $this->customerKey;
         }
 
+        if (null !== $this->receipt) {
+            $order['Receipt'] = json_encode($this->receipt->__toArray());
+        }
+
         return $order;
-    }
-
-    /**
-     * @param array $data
-     * @return Order
-     */
-    private function __buildData(array $data)
-    {
-        $newStr = [];
-
-        foreach ($data as $key => $value) {
-            $newStr[] = $key . '=' . $value;
-        }
-        $this->data = implode('|', $newStr);
-
-        return $this;
-    }
-
-    /**
-     * @return array
-     */
-    private function __parseData()
-    {
-        $a = [];
-
-        if (!empty($this->data)) {
-            foreach (explode('|', $this->data) as $item) {
-                list($key, $value) = explode('=', $item);
-                $a[$key] = $value;
-            }
-        }
-
-        return $a;
     }
 
     /**
@@ -226,10 +216,9 @@ class Order
      */
     public function setEmail($email)
     {
-        $data = $this->__parseData();
-        $data['Email'] = $email;
+        $this->data['Email'] = $email;
 
-        return $this->__buildData($data);
+        return $this;
     }
 
     /**
@@ -238,10 +227,9 @@ class Order
      */
     public function setPhone($phone)
     {
-        $data = $this->__parseData();
-        $data['Phone'] = $phone;
+        $this->data['Phone'] = $phone;
 
-        return $this->__buildData($data);
+        return $this;
     }
 
     /**
@@ -297,6 +285,25 @@ class Order
         if (in_array($language, self::$availableLanguages)) {
             $this->language = $language;
         }
+        return $this;
+    }
+
+    /**
+     * @return Receipt|null
+     */
+    public function getReceipt()
+    {
+        return $this->receipt;
+    }
+
+    /**
+     * @param Receipt $receipt
+     * @return Order
+     */
+    public function setReceipt(Receipt $receipt)
+    {
+        $this->receipt = $receipt;
+
         return $this;
     }
 }

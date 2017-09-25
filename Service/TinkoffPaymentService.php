@@ -90,4 +90,16 @@ class TinkoffPaymentService
     {
         return $this->apiService->checkToken($data, $token);
     }
+
+    /**
+     * @param $paymentId
+     * @return Response
+     */
+    public function confirm($paymentId)
+    {
+        $result = $this->apiService->confirm(['PaymentId' => $paymentId]);
+        $response = new Response($result);
+        $this->checkErrors($response);
+        return $response;
+    }
 }
