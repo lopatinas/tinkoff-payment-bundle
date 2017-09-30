@@ -29,6 +29,11 @@ class Order
     private $orderId;
 
     /**
+     * @var string $paymentId Payment id in payment system
+     */
+    private $paymentId;
+
+    /**
      * @var string $description Short payment description
      */
     private $description;
@@ -303,6 +308,25 @@ class Order
     public function setReceipt(Receipt $receipt)
     {
         $this->receipt = $receipt;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPaymentId(): string
+    {
+        return $this->paymentId;
+    }
+
+    /**
+     * @param string $paymentId
+     * @return Order
+     */
+    public function setPaymentId(string $paymentId)
+    {
+        $this->paymentId = $paymentId;
 
         return $this;
     }

@@ -92,12 +92,16 @@ class TinkoffPaymentService
     }
 
     /**
-     * @param $paymentId
+     * @param Order $order
      * @return Response
      */
-    public function confirm($paymentId)
+    public function confirm(Order $order)
     {
-        $result = $this->apiService->confirm(['PaymentId' => $paymentId]);
+        $data['PaymentId'] = $order->getPaymentId();
+        if ($order->getAmount()) {
+            $data['Amount'] = $order->getAmount();
+        }
+        $result = $this->apiService->confirm($data);
         $response = new Response($result);
         $this->checkErrors($response);
         return $response;
