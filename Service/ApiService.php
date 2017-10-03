@@ -247,7 +247,7 @@ class ApiService
     private function _sendRequest($apiUrl, $args)
     {
         if (is_array($args)) {
-            $args = http_build_query($args);
+            $args = json_encode($args);
         }
 
         $curl = curl_init();
@@ -260,6 +260,10 @@ class ApiService
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+                'Content-Type: application/json',
+                'Content-Length: ' . strlen($args))
+        );
         curl_setopt($curl, CURLOPT_POSTFIELDS, $args);
         $out = curl_exec($curl);
 
