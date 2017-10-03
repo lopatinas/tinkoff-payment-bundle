@@ -206,6 +206,12 @@ class ApiService
     {
         $token = '';
         $args['Password'] = $this->_secretKey;
+        if (isset($args['DATA'])) {
+            unset($args['DATA']);
+        }
+        if (isset($args['Receipt'])) {
+            unset($args['Receipt']);
+        }
         ksort($args);
         foreach ($args as $arg) {
             $token .= $arg;

@@ -189,7 +189,7 @@ class Order
             'Amount'    => $this->amount,
             'OrderId'   => $this->orderId,
             'Language'  => $this->language,
-            'DATA'      => json_encode($this->data),
+            'DATA'      => $this->data,
         ];
 
         if (null !== $this->terminalKey) {
@@ -209,7 +209,7 @@ class Order
         }
 
         if (null !== $this->receipt) {
-            $order['Receipt'] = json_encode($this->receipt->__toArray());
+            $order['Receipt'] = $this->receipt->__toArray();
         }
 
         return $order;
